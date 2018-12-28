@@ -20,7 +20,7 @@ elif [ $1x == "stop"x ]; then
     rm -rf $pid_file
     echo "success"
 elif [ $1x == "duration"x ]; then
-    video_time=`./ffmpeg -i $3 2>&1 | grep 'Duration' | cut -d ' ' -f 4 | sed s/,//`
+    video_time=`./ffmpeg -i $2 2>&1 | grep 'Duration' | cut -d ' ' -f 4 | sed s/,//`
     echo $video_time
 else
     echo "usage: ./ffserver_cmd.sh start port videoPath "

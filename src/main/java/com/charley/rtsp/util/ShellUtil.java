@@ -20,36 +20,36 @@ public class ShellUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ShellUtil.class);
 
-    public static boolean runCmd(String cmd){
+    public static String runCmd(String cmd){
         return runCmd(cmd, new File("d:/"));
     }
 
-    public static boolean runCmd(String cmd, File dir){
+    public static String runCmd(String cmd, File dir){
         Process process = null;
+        StringBuilder res = new StringBuilder();
         try {
-            LOGGER.info("cmd start>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            //LOGGER.info("cmd start>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             String[] commands = getCommands(cmd);
             if(commands==null){
                 LOGGER.error("can't get correct commands");
-                return false;
+                return null;
             }
-            LOGGER.info("execute cmd:[{}],dir:[{}]", StringUtils.join(commands," "),dir == null ? "null": dir.toString());
+            //LOGGER.info("execute cmd:[{}],dir:[{}]", StringUtils.join(commands," "),dir == null ? "null": dir.toString());
             process = Runtime.getRuntime().exec(commands, null, dir);
 
             InputStreamReader isr = new InputStreamReader(process.getInputStream());
             BufferedReader br = new BufferedReader(isr);
             String line;
             while ((line = br.readLine()) != null){
-                System.out.println(line);
+                res.append(line);
             }
 
             int value = process.waitFor();
             if(value == 0) {
-                LOGGER.info("cmd complete<<<<<<<<<<<<<<<<<<<<<<<<<");
-                return true;
+                //LOGGER.info("cmd complete<<<<<<<<<<<<<<<<<<<<<<<<<");
             }else{
-                LOGGER.info("cmd failure<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                return false;
+                //LOGGER.info("cmd failure<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,7 +62,7 @@ public class ShellUtil {
                 process.destroy();
             }
         }
-        return true;
+        return res.toString();
     }
 
     private static String[] getCommands(String cmd){
