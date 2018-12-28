@@ -13,7 +13,7 @@
     <groupId>com.charley</groupId>
     <artifactId>rtsp</artifactId>
     <version>1.0.0</version>
-    <name>rtsp</name>
+    <name>video2rtsp</name>
     <description>video2rtsp server</description>
 
     <properties>
@@ -51,8 +51,9 @@
     </dependencies>
 
     <build>
-        <plugins>
+        <finalName>video2rtsp</finalName>
 
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
