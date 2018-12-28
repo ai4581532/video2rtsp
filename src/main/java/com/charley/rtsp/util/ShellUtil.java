@@ -1,9 +1,13 @@
 package com.charley.rtsp.util;
 
-import com.charley.rtsp.handler.ProcessStreamHandler;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * @ClassName ShellUtil
@@ -14,26 +18,37 @@ import java.io.IOException;
  **/
 public class ShellUtil {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShellUtil.class);
+
     public static boolean runCmd(String cmd){
-        return runCmd(cmd, null);
+        return runCmd(cmd, new File("d:/"));
     }
 
     public static boolean runCmd(String cmd, File dir){
         Process process = null;
         try {
-            System.out.println("cmd start");
-            String[] command = { "/bin/sh", "-c", cmd };
-            process = Runtime.getRuntime().exec(command, null, dir);
+            LOGGER.info("cmd start>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            String[] commands = getCommands(cmd);
+            if(commands==null){
+                LOGGER.error("can't get correct commands");
+                return false;
+            }
+            LOGGER.info("execute cmd:[{}],dir:[{}]", StringUtils.join(commands," "),dir == null ? "null": dir.toString());
+            process = Runtime.getRuntime().exec(commands, null, dir);
 
-            new ProcessStreamHandler(process.getInputStream(), "INFO").start();
-            new ProcessStreamHandler(process.getErrorStream(),"ERR").start();
+            InputStreamReader isr = new InputStreamReader(process.getInputStream());
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+            while ((line = br.readLine()) != null){
+                System.out.println(line);
+            }
 
             int value = process.waitFor();
             if(value == 0) {
-                System.out.println("complete");
+                LOGGER.info("cmd complete<<<<<<<<<<<<<<<<<<<<<<<<<");
                 return true;
             }else{
-                System.out.println("failure");
+                LOGGER.info("cmd failure<<<<<<<<<<<<<<<<<<<<<<<<<<");
                 return false;
             }
         } catch (IOException e) {
@@ -48,6 +63,20 @@ public class ShellUtil {
             }
         }
         return true;
+    }
+
+    private static String[] getCommands(String cmd){
+        if(SystemUtil.isLinux()){
+            return new String[]{"/bin/sh", "-c", cmd };
+        }
+        if(SystemUtil.isWindows()){
+            return new String[]{"cmd.exe", "/c", cmd };
+        }
+        return null;
+    }
+
+    public static void main(String [] args){
+        ShellUtil.runCmd("ping www.jd.com");
     }
 
 }
