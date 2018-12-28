@@ -2,7 +2,7 @@
 本地视频或在线视频转rtsp流服务，极简api，方便使用。
 
 本服务底层依赖ffmpeg和ffserver,原理为使用java执行命令行启动ffserver实例，提供视频转rtsp流服务。
-使用springboot2.0和spring技术栈。合理的打包配置，内置相关依赖，提供启动脚本，部署极简。
+使用springboot2.1等spring技术栈。合理的打包配置，内置相关依赖，提供启动脚本，部署极简。
 
 
 ### 注意事项
@@ -16,7 +16,7 @@
 
 以下application.properties中配置需根据具体环境修改
 
-    ffserver.home=/www/video2rtsp-1.0.0/ffserver  //ffserver可执行文件目录,已集成在项目打包文件中
+    ffserver.home=/www/video2rtsp-1.0.0/ffserver  //ffserver代码目录,已集成在项目打包文件中
     ffserver.host=35.221.88.168 //服务器host
    
 ### 启动说明
