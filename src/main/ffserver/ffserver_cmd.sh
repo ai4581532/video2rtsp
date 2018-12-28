@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #######################################################
-#功能：将MP4视频转换为rtsp流                           #
+#功能：启动ffserver实例，将MP4视频转换为rtsp流                           #
 #将该文件放到ffserver下                                #
 #请先创建一下目录：                                    #
 #ffserver/pid                                         #
@@ -23,6 +23,6 @@ elif [ $1x == "duration"x ]; then
     video_time=`./ffmpeg -i $3 2>&1 | grep 'Duration' | cut -d ' ' -f 4 | sed s/,//`
     echo $video_time
 else
-    echo "usage: ./rtsp_cmd.sh start port videoPath "
-    echo "usage: ./rtsp_cmd.sh stop  port videoPath "
+    echo "usage: ./ffserver_cmd.sh start port videoPath "
+    echo "usage: ./ffserver_cmd.sh stop  port videoPath "
 fi
