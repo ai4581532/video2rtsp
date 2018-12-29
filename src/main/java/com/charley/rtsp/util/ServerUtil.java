@@ -34,43 +34,43 @@ public class ServerUtil {
 
     public String start(String port, String file){
         if (StringUtils.isEmpty(file) || StringUtils.isEmpty(port)) {
-            LOGGER.error("[Start] >>>> param port or file  is null");
+            LOGGER.error("[Start] >>> param port or file  is null");
             return "param port or file  is null";
         }
         String cmd = String.format(CMD_START, port, file);
-        LOGGER.info("[Start] >>>> rtsp stream transform cmd:[{}]", cmd);
+        LOGGER.info("[Start] >>> cmd:[{}]", cmd);
         String res = ShellUtil.runCmd(cmd, new File(ffserverHome));
         return res;
     }
 
     public String stop(String port, String file){
         if (StringUtils.isEmpty(file) || StringUtils.isEmpty(port)) {
-            LOGGER.error("[Stop] >>>> param port or file  is null");
+            LOGGER.error("[Stop] >>> param port or file  is null");
             return "param port or file  is null";
         }
         String cmd = String.format(CMD_STOP, port, file);
-        LOGGER.info("[Stop] >>>> rtsp stream transform cmd:[{}]", cmd);
+        LOGGER.info("[Stop] >>> cmd:[{}]", cmd);
         String res = ShellUtil.runCmd(cmd, new File(ffserverHome));
-        LOGGER.info("[Stop] >>>> port[{}] stop return:{}",port,res);
+        LOGGER.info("[Stop] >>> port[{}] stop return:{}",port,res);
         return res;
     }
 
     public String checkPort(String port){
         if (StringUtils.isEmpty(port)) {
-            LOGGER.error("[Check] >>>> param port is null");
+            LOGGER.error("[Check] >>> param port is null");
             return "param port is null";
         }
         String cmd = String.format(CMD_CHECK_PORT, port);
-        LOGGER.info("[Check] >>>> check port cmd:[{}]", cmd);
+        LOGGER.info("[Check] >>> check port cmd:[{}]", cmd);
         String checkValue =  ShellUtil.runCmd(cmd, new File(ffserverHome));
-        LOGGER.info("[Check] >>>> check port cmd return:[{}]", checkValue);
+        LOGGER.info("[Check] >>> check port cmd return:[{}]", checkValue);
         if(StringUtils.isEmpty(checkValue)){
             return null;
         }else{
             if(checkValue.contains("ffserver")){
                 String pidCmd = String.format(CMD_PID, port);
                 String pid = ShellUtil.runCmd(pidCmd, new File(ffserverHome));
-                LOGGER.info("[Check] >>>> get pid cmd:[{}]", pidCmd);
+                LOGGER.info("[Check] >>> get pid cmd:[{}]", pidCmd);
                 ShellUtil.runCmd("kill -9 "+ pid, new File(ffserverHome));
                 return null;
             }else{
@@ -81,13 +81,13 @@ public class ServerUtil {
 
     public int getDuration(String file){
         if (StringUtils.isEmpty(file)) {
-            LOGGER.error("[Duration] >>>> param file is null");
+            LOGGER.error("[Duration] >>> param file is null");
             return 0;
         }
         String cmd = String.format(CMD_DURATION, file);
-        LOGGER.info("[Duration] >>>> rtsp stream transform cmd:[{}]", cmd);
+        LOGGER.info("[Duration] >>> cmd:[{}]", cmd);
         String time = ShellUtil.runCmd(cmd, new File(ffserverHome));
-        LOGGER.info("[Duration] >>>> stream duration:[{}]", time);
+        LOGGER.info("[Duration] >>> stream duration:[{}]", time);
         return TimeUtil.timeConvert(time);
     }
 }

@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.charley</groupId>
-    <artifactId>rtsp</artifactId>
+    <artifactId>video2rtsp</artifactId>
     <version>1.0.0</version>
     <name>video2rtsp</name>
     <description>video2rtsp server</description>
@@ -51,7 +51,6 @@
     </dependencies>
 
     <build>
-        <finalName>video2rtsp</finalName>
 
         <plugins>
             <plugin>
