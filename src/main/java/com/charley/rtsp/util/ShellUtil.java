@@ -1,13 +1,9 @@
 package com.charley.rtsp.util;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * @ClassName ShellUtil
@@ -37,23 +33,25 @@ public class ShellUtil {
             //LOGGER.info("execute cmd:[{}],dir:[{}]", StringUtils.join(commands," "),dir == null ? "null": dir.toString());
             process = Runtime.getRuntime().exec(commands, null, dir);
 
-            InputStreamReader isr = new InputStreamReader(process.getInputStream());
-            BufferedReader br = new BufferedReader(isr);
+            BufferedInputStream in = new BufferedInputStream(process.getInputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String line;
             while ((line = br.readLine()) != null){
                 res.append(line);
             }
 
-            int value = process.waitFor();
-            if(value == 0) {
-                //LOGGER.info("cmd complete<<<<<<<<<<<<<<<<<<<<<<<<<");
-            }else{
-                //LOGGER.info("cmd failure<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                return null;
-            }
+            br.close();
+            in.close();
+
+//            int value = process.waitFor();
+//            if(value == 0) {
+//                //LOGGER.info("cmd complete<<<<<<<<<<<<<<<<<<<<<<<<<");
+//            }else{
+//                //LOGGER.info("cmd failure<<<<<<<<<<<<<<<<<<<<<<<<<<");
+//                return null;
+//            }
+
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();

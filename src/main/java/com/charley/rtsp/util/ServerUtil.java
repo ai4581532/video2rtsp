@@ -25,9 +25,9 @@ public class ServerUtil {
     @Value("${ffserver.host:127.0.0.1}")
     public String ffserverHost;
 
-    private static final String CMD_START = "./ffserver_cmd.sh start %s %s";
-    private static final String CMD_STOP = "./ffserver_cmd.sh stop %s %s";
-    private static final String CMD_DURATION = "./ffserver_cmd.sh duration %s";
+    private static final String CMD_START = "./server_cmd.sh start %s %s";
+    private static final String CMD_STOP = "./server_cmd.sh stop %s %s";
+    private static final String CMD_DURATION = "./server_cmd.sh duration %s";
 
     private static final String CMD_CHECK_PORT = " lsof -i:%s";
     private static final String CMD_PID = "ps -ef|grep ffserver | grep -v grep |grep %s|cut -c 9-15";
@@ -40,6 +40,7 @@ public class ServerUtil {
         String cmd = String.format(CMD_START, port, file);
         LOGGER.info("[Start] >>> cmd:[{}]", cmd);
         String res = ShellUtil.runCmd(cmd, new File(ffserverHome));
+        LOGGER.info("[Start] >>> return:[{}]",res);
         return res;
     }
 
@@ -51,7 +52,7 @@ public class ServerUtil {
         String cmd = String.format(CMD_STOP, port, file);
         LOGGER.info("[Stop] >>> cmd:[{}]", cmd);
         String res = ShellUtil.runCmd(cmd, new File(ffserverHome));
-        LOGGER.info("[Stop] >>> port[{}] stop return:{}",port,res);
+        LOGGER.info("[Stop] >>> return:[{}]",res);
         return res;
     }
 
@@ -61,9 +62,9 @@ public class ServerUtil {
             return "param port is null";
         }
         String cmd = String.format(CMD_CHECK_PORT, port);
-        LOGGER.info("[Check] >>> check port cmd:[{}]", cmd);
+        LOGGER.info("[Check] >>> cmd:[{}]", cmd);
         String checkValue =  ShellUtil.runCmd(cmd, new File(ffserverHome));
-        LOGGER.info("[Check] >>> check port cmd return:[{}]", checkValue);
+        LOGGER.info("[Check] >>> return:[{}]", checkValue);
         if(StringUtils.isEmpty(checkValue)){
             return null;
         }else{
@@ -87,7 +88,7 @@ public class ServerUtil {
         String cmd = String.format(CMD_DURATION, file);
         LOGGER.info("[Duration] >>> cmd:[{}]", cmd);
         String time = ShellUtil.runCmd(cmd, new File(ffserverHome));
-        LOGGER.info("[Duration] >>> stream duration:[{}]", time);
+        LOGGER.info("[Duration] >>> return:[{}]", time);
         return TimeUtil.timeConvert(time);
     }
 }
