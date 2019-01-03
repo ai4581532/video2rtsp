@@ -28,6 +28,7 @@ public class ServerUtil {
     private static final String CMD_START = "./server_cmd.sh start %s %s";
     private static final String CMD_STOP = "./server_cmd.sh stop %s %s";
     private static final String CMD_DURATION = "./server_cmd.sh duration %s";
+    private static final String CMD_CHECK = "./server_cmd.sh check %s";
 
     private static final String CMD_CHECK_PORT = " lsof -i:%s";
     private static final String CMD_PID = "ps -ef|grep ffserver | grep -v grep |grep %s|cut -c 9-15";

@@ -22,6 +22,12 @@ elif [ $1 == "stop" ];then
 elif [ $1 == "duration" ];then
     video_time=`./ffmpeg -i $2 2>&1 | grep 'Duration' | cut -d ' ' -f 4 | sed s/,//`
     echo $video_time
+elif [$1 == "check" ];then
+    server_pid=`ps -ef|grep ffserver | grep -v grep |grep %s|cut -c 9-15`
+    if [! -z "$server_pid"];then
+        kill -9 $server_pid
+    fi
+    echo "success"
 else
     echo "usage: ./server_cmd.sh start port videoPath "
     echo "usage: ./server_cmd.sh stop  port videoPath "
